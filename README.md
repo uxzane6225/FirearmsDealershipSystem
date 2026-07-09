@@ -1,11 +1,10 @@
 # ITCP Project
 ## Title
- - Toy Store
+ - Firearms Dealership System
 ## Made by
  - Uriel Laurence M. Mendoza
 ## About
- - playMore is currently a Toy Store Management System, connected to a database housing user, toy, and sale data. The end user can perform basic CRUD operations and sale transactions, which also influences product stock, sale detail quantity, and total cost.
- - I am planning to improve this project in the future after the trimester ends, like adding carts, expanding the database, implementing proper transaction process, and adding more to the UI.
+ - The Firearms Dealership System is a WinForms (.NET Framework) Desktop Application that is connected to a local MySQL Database, it utilizes basic CRUD Operations, Sotred Procedure for Transactions, and BCrypt for password hashing.
 ## Requirements
 ### 1. Project Architecture
   To keep the code clean, do not put everything in the main form. Divide your logic into these categories:
