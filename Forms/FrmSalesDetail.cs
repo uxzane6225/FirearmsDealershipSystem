@@ -39,7 +39,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCustomerID.Text) || string.IsNullOrEmpty(txtQuantity.Text) || string.IsNullOrEmpty(cbProducts.Text))
             {
-                MessageBox.Show("Fill all sale detail fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Sale Detail Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Sale Detail added succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sale Detail Added Succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadSales();
                 }
             }
@@ -73,7 +73,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCustomerID.Text) || string.IsNullOrEmpty(txtQuantity.Text) || string.IsNullOrEmpty(cbProducts.Text))
             {
-                MessageBox.Show("Fill all sale detail fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Sale Detail Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -93,7 +93,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Sale Detail edited succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sale Detail Updated Succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadSales();
                 }
             }
@@ -107,11 +107,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCustomerID.Text) || string.IsNullOrEmpty(txtQuantity.Text) || string.IsNullOrEmpty(cbProducts.Text))
             {
-                MessageBox.Show("Fill all sale detail fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Sale Detail Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Edit Sale Detail?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Delete Sale Detail?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 SaleDetail deleteSD = new SaleDetail
                 {
@@ -125,7 +125,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Sale Detail deleted succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sale Detail Deleted Succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadSales();
                 }
             }
@@ -137,9 +137,9 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Clear cateogry fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Clear Category Fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                MessageBox.Show("Category fields cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Category Fields Cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtSaleID.Clear();
                 txtCustomerID.Clear();
                 txtQuantity.Clear();
@@ -199,7 +199,7 @@ namespace FirearmsDealershipSystem.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Database Error: Loading product", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Database Error: Loading Products", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
