@@ -22,14 +22,13 @@ namespace FirearmsDealershipSystem.Forms
         {
             InitializeComponent();
 
-            if (Models.Session.isLoggedIn == true)
+            if (Session.isLoggedIn == true)
             {
                 lblFullName.Text = Session.CurrentEmployee.FullName.ToString();
                 tbControls.Appearance = TabAppearance.FlatButtons;
                 tbControls.ItemSize = new Size(0, 1);
                 tbControls.SizeMode = TabSizeMode.Fixed;
             }
-            
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -73,11 +72,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtProduct.Text) || string.IsNullOrEmpty(txtPrice.Text) || string.IsNullOrEmpty(cbType.Text) || string.IsNullOrEmpty(cbCategory.Text) || string.IsNullOrEmpty(txtPrice.Text) || string.IsNullOrEmpty(txtStock.Text))
             {
-                MessageBox.Show("Fill all employee fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Product Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Add product?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Add Product?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Product newProduct = new Product
                 {
@@ -98,17 +97,17 @@ namespace FirearmsDealershipSystem.Forms
                     CategoryName = cbCategory.Text
                 };
 
-                Employee employee = new Employee
+                Employee Employee = new Employee
                 {
                     EmployeeID = Session.CurrentEmployee.EmployeeID.ToString()
                 };
 
                 var repo = new ProductRepository(connectionString);
-                bool success = repo.Add(newProduct, type, category, employee);
+                bool success = repo.Add(newProduct, type, category, Employee);
 
                 if (success)
                 {
-                    MessageBox.Show("Product added succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Product Added Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadInventory();
                 }
             }
@@ -125,11 +124,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtProduct.Text) || string.IsNullOrEmpty(txtPrice.Text) || string.IsNullOrEmpty(cbType.Text) || string.IsNullOrEmpty(cbCategory.Text) || string.IsNullOrEmpty(txtPrice.Text) || string.IsNullOrEmpty(txtStock.Text))
             {
-                MessageBox.Show("Fill all employee fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Product Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Edit product?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Edit Product?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Product editProduct = new Product
                 {
@@ -156,7 +155,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Product edited succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Product Updated Succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadInventory();
                 }
             }
@@ -172,11 +171,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtProduct.Text) || string.IsNullOrEmpty(txtPrice.Text) || string.IsNullOrEmpty(cbType.Text) || string.IsNullOrEmpty(cbCategory.Text))
             {
-                MessageBox.Show("Fill all product fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Product Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Delete product?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Delete Product?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 int id = Convert.ToInt32(dgvInventory.SelectedRows[0].Cells["pid"].Value.ToString());
 
@@ -185,7 +184,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Product edited succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Product Deleted Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadInventory();
                 }
             }
@@ -200,9 +199,9 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnClearInventory_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Clear product fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Clear Product Fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                MessageBox.Show("Product fields cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Product Fields Cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtProduct.Clear();
                 txtPrice.Clear();
                 txtStock.Clear();
@@ -273,7 +272,7 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnCategories_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Open Categories Form?", "Quesiton", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Open Categories Form?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 this.Hide();
                 FrmCategories categoryForm = new FrmCategories();
@@ -291,7 +290,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtSearchLastName.Text))
             {
-                MessageBox.Show("Enter a name to find!", "Error");
+                MessageBox.Show("Search Field is Empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -300,7 +299,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT p.pid, p.name AS 'Name', pt.ptid, pt.prodtype AS 'Type', ct.ctgryid, ct.category AS 'Category', p.price AS 'Price', p.stock AS 'Stock', e.eid FROM products p INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid INNER JOIN employees e ON e.eid = p.eid WHERE p.Name LIKE @key";
+                    string query = "SELECT p.pid, p.name AS 'Name', pt.ptid, pt.prodtype AS 'Type', ct.ctgryid, ct.category AS 'Category', p.price AS 'Price', p.stock AS 'Stock', e.eid FROM products p INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid INNER JOIN Employees e ON e.eid = p.eid WHERE p.Name LIKE @key";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@key", '%' + keyword + '%');
@@ -317,7 +316,7 @@ namespace FirearmsDealershipSystem.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Database Error: Searching in Inventory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show($"Error: {ex.Message}", "Database Error: Searching Inventory", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -340,7 +339,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT p.pid, p.name AS 'Name', pt.ptid, pt.prodtype AS 'Type', ct.ctgryid, ct.category AS 'Category', p.price AS 'Price', p.stock AS 'Stock', e.eid FROM products p INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid INNER JOIN employees e ON e.eid = p.eid ORDER BY pid ASC";
+                    string query = "SELECT p.pid, p.name AS 'Name', pt.ptid, pt.prodtype AS 'Type', ct.ctgryid, ct.category AS 'Category', p.price AS 'Price', p.stock AS 'Stock', e.eid FROM products p INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid INNER JOIN Employees e ON e.eid = p.eid ORDER BY pid ASC";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
@@ -371,7 +370,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCustomerID.Text) || string.IsNullOrEmpty(txtTotal.Text))
             {
-                MessageBox.Show("Fill all sale fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Sale Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -389,7 +388,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Sale added succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sale Added Successfullly!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadSales();
                 }
             }
@@ -403,7 +402,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCustomerID.Text) || string.IsNullOrEmpty(txtTotal.Text))
             {
-                MessageBox.Show("Fill all sale fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill All Sale Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -422,7 +421,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Sale edited succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sale Updated Succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadSales();
                 }
             }
@@ -436,7 +435,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCustomerID.Text) || string.IsNullOrEmpty(txtTotal.Text))
             {
-                MessageBox.Show("Fill all sale fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Sale Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -450,7 +449,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Sale deleted succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Sale Deleted Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadSales();
                 }
             }
@@ -462,9 +461,9 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnClearSale_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Clear product fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Clear Sale Fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                MessageBox.Show("Product fields cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Sale Fields Cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtCustomerID.Clear();
                 txtTotal.Clear();
                 LoadSales();
@@ -494,7 +493,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT s.sid, c.cid, CONCAT(c.firstname, \" \",c.lastname) AS 'Customer', p.name AS 'Product', pt.prodtype AS 'Type', ct.category AS 'Category', p.price AS 'Price', sd.quantity AS 'Quantity', s.total_amount AS 'Total', s.sale_date AS 'Date' FROM sales_detail sd INNER JOIN products p ON p.pid = sd.pid INNER JOIN sales s ON s.sid = sd.sid INNER JOIN customers c ON c.cid = s.cid INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid";
+                    string query = "SELECT s.sid, c.cid, CONCAT(c.firstname, \" \",c.lastname) AS 'Customer', p.name AS 'Product', pt.prodtype AS 'Type', ct.category AS 'Category', p.price AS 'Price', sd.quantity AS 'Quantity', s.total_amount AS 'Total', s.sale_date AS 'Date' FROM sales_detail sd INNER JOIN products p ON p.pid = sd.pid INNER JOIN sales s ON s.sid = sd.sid INNER JOIN Customers c ON c.cid = s.cid INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
@@ -522,7 +521,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtSearchSale.Text))
             {
-                MessageBox.Show("Enter a sale to find!", "Error");
+                MessageBox.Show("Search Field is Empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -531,7 +530,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT s.sid, c.cid, CONCAT(c.firstname, \" \",c.lastname) AS 'Customer', p.name AS 'Product', pt.prodtype AS 'Type', ct.category AS 'Category', p.price AS 'Price', sd.quantity AS 'Quantity', s.total_amount AS 'Total', s.sale_date AS 'Date' FROM sales_detail sd INNER JOIN products p ON p.pid = sd.pid INNER JOIN sales s ON s.sid = sd.sid INNER JOIN customers c ON c.cid = s.cid INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid WHERE CONCAT(c.firstname, \" \",c.lastname) LIKE @key";
+                    string query = "SELECT s.sid, c.cid, CONCAT(c.firstname, \" \",c.lastname) AS 'Customer', p.name AS 'Product', pt.prodtype AS 'Type', ct.category AS 'Category', p.price AS 'Price', sd.quantity AS 'Quantity', s.total_amount AS 'Total', s.sale_date AS 'Date' FROM sales_detail sd INNER JOIN products p ON p.pid = sd.pid INNER JOIN sales s ON s.sid = sd.sid INNER JOIN Customers c ON c.cid = s.cid INNER JOIN product_type pt ON pt.ptid = p.ptid INNER JOIN categories ct ON ct.ctgryid = p.ctgryid WHERE CONCAT(c.firstname, \" \",c.lastname) LIKE @key";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@key", '%' + keyword + '%');
@@ -548,7 +547,7 @@ namespace FirearmsDealershipSystem.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Database Error: Searching in Sales", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Database Error: Searching Sales", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -566,7 +565,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtEID.Text) || string.IsNullOrEmpty(txtFullName.Text) || string.IsNullOrEmpty(txtFullName.Text) || string.IsNullOrEmpty(txtPassword.Text))
             {
-                MessageBox.Show("Fill all employee fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Employee Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -576,7 +575,7 @@ namespace FirearmsDealershipSystem.Forms
                 return;
             }
 
-            if (MessageBox.Show("Add employee?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Add Employee?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Employee newEmployee = new Employee
                 {
@@ -591,7 +590,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Employee added succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Employee Added succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadEmployees();
                 }
             }
@@ -607,7 +606,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtEID.Text) || string.IsNullOrEmpty(txtFullName.Text) || string.IsNullOrEmpty(txtFullName.Text) || string.IsNullOrEmpty(txtPassword.Text))
             {
-                MessageBox.Show("Fill all employee fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Employee Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -617,7 +616,7 @@ namespace FirearmsDealershipSystem.Forms
                 return;
             }
 
-            if (MessageBox.Show("Edit employee?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Edit Employee?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Employee newEmployee = new Employee
                 {
@@ -632,7 +631,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Employee edited succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Employee Updated Succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadEmployees();
                 }
             }
@@ -648,17 +647,17 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (dgvEmployees.SelectedRows.Count < 1)
             {
-                MessageBox.Show("Select an employee!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Select an Employee!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Delete employee?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Delete Employee?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 string id = dgvEmployees.SelectedRows[0].Cells[0].Value.ToString();
                 var repo = new EmployeeRepository(connectionString);
                 if (repo.Delete(id))
                 {
-                    MessageBox.Show("Employee deleted successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Employee Deleted Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadEmployees();
                 }
             }
@@ -672,7 +671,7 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnClearEmployee_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Clear employee fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Clear Employee Fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 txtEID.Text = "RP000";
                 txtFullName.Clear();
@@ -681,7 +680,7 @@ namespace FirearmsDealershipSystem.Forms
                 txtPassword.Clear();
                 dgvEmployees.ClearSelection();
                 LoadEmployees();
-                MessageBox.Show("Employee fields cleared", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Employee Fields Cleared", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -704,7 +703,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT eid AS 'Employee ID', fullname AS 'Full name', email AS 'Email', password FROM employees";
+                    string query = "SELECT eid AS 'Employee ID', fullname AS 'Full name', email AS 'Email', password FROM Employees";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
@@ -745,7 +744,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT eid AS 'Employee ID', fullname AS 'Full name', email AS 'Email', password FROM employees WHERE fullname LIKE @key";
+                    string query = "SELECT eid AS 'Employee ID', fullname AS 'Full name', email AS 'Email', password FROM Employees WHERE fullname LIKE @key";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@key", '%' + keyword + '%');
@@ -781,11 +780,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtFirstName.Text) || string.IsNullOrEmpty(txtLastName.Text) || string.IsNullOrEmpty(cbGender.Text) || string.IsNullOrEmpty(txtAge.Text) || string.IsNullOrEmpty(txtCustomerEmail.Text) || string.IsNullOrEmpty(txtPhone.Text))
             {
-                MessageBox.Show("Fill all customer fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Customer Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Add customer?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Add Customer?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Customer newCustomer = new Customer
                 {
@@ -802,7 +801,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Customer added successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Customer Added Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadCustomers();
                 }
             }
@@ -820,11 +819,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtFirstName.Text) || string.IsNullOrEmpty(txtLastName.Text) || string.IsNullOrEmpty(cbGender.Text) || string.IsNullOrEmpty(txtAge.Text) || string.IsNullOrEmpty(txtCustomerEmail.Text) || string.IsNullOrEmpty(txtPhone.Text))
             {
-                MessageBox.Show("Fill all customer fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill all Customer Fields!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Edit customer?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Edit Customer?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Customer editCustomer = new Customer
                 {
@@ -842,7 +841,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Customer edited succesfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Customer Updated succesfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadCustomers();
                 }
             }
@@ -860,17 +859,17 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (dgvCustomers.SelectedRows.Count < 1)
             {
-                MessageBox.Show("Select a customer", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Select a Customer", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Delete customer?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Delete Customer?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 int id = int.Parse(dgvCustomers.SelectedRows[0].Cells[0].Value.ToString());
                 var repo = new CustomerRepository(connectionString);
                 if (repo.Delete(id))
                 {
-                    MessageBox.Show("Employee deleted successfully.", "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Employee Deleted Successfully.", "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadCustomers();
                 }
             }
@@ -886,7 +885,7 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnClearCustomer_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Clear customer fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question)== DialogResult.Yes)
+            if (MessageBox.Show("Clear Customer Fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 txtFirstName.Clear();
                 txtLastName.Clear();
@@ -896,7 +895,7 @@ namespace FirearmsDealershipSystem.Forms
                 txtPhone.Clear();
                 dgvCustomers.ClearSelection();
                 LoadCustomers();
-                MessageBox.Show("Customer fields cleared", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Customer Fields Cleared", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -907,7 +906,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT * FROM customers";
+                    string query = "SELECT * FROM Customers";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
@@ -926,7 +925,7 @@ namespace FirearmsDealershipSystem.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Database error: Loading Customers", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Database Error: Loading Customers", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -945,7 +944,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtSearchFirstName.Text))
             {
-                MessageBox.Show("Enter a name to find!", "Error");
+                MessageBox.Show("Search Field is Empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -954,7 +953,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT * FROM customers WHERE firstname LIKE @key";
+                    string query = "SELECT * FROM Customers WHERE firstname LIKE @key";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@key", '%' + keyword + '%');
@@ -993,7 +992,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT * FROM customers WHERE lastname LIKE @key";
+                    string query = "SELECT * FROM Customers WHERE lastname LIKE @key";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@key", '%' + keyword + '%');

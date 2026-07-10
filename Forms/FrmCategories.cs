@@ -37,11 +37,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCategory.Text))
             {
-                MessageBox.Show("Fill the category field!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill the Category Field!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Add category?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Add Category?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Category newCategory = new Category
                 {
@@ -53,7 +53,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Category added succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Category Added Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadCategory();
                 }
             }
@@ -66,11 +66,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCategory.Text))
             {
-                MessageBox.Show("Fill the category field!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill the Category Field!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Edit category?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Edit Category?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Category editCategory = new Category
                 {
@@ -83,7 +83,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Category edited succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Category Updated Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadCategory();
                 }
             }
@@ -96,11 +96,11 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtCategory.Text))
             {
-                MessageBox.Show("Fill the category field!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Fill the Category Field!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            if (MessageBox.Show("Delete product?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Delete Category?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 int id = int.Parse(dgvCategory.SelectedRows[0].Cells["ctgryid"].Value.ToString());
 
@@ -109,7 +109,7 @@ namespace FirearmsDealershipSystem.Forms
 
                 if (success)
                 {
-                    MessageBox.Show("Category deleted succesfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Category Delete Successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadCategory();
                 }
             }
@@ -120,7 +120,7 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Leave products?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Leave Categories?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 this.Hide();
                 FrmMain mainForm = new FrmMain();
@@ -131,9 +131,9 @@ namespace FirearmsDealershipSystem.Forms
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Clear product fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Clear Product Fields?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                MessageBox.Show("Product fields cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Product fields Cleared!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtCategory.Clear();
                 dgvCategory.ClearSelection();
                 LoadCategory();
@@ -178,7 +178,7 @@ namespace FirearmsDealershipSystem.Forms
         {
             if (string.IsNullOrEmpty(txtSearch.Text))
             {
-                MessageBox.Show("Enter a category to find!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Search Field is Empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -186,7 +186,7 @@ namespace FirearmsDealershipSystem.Forms
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT * FROM categories WHERE category LIKE @word";
+                    string query = "SELECT * FROM categories WHERE Category LIKE @word";
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@word", '%' + word + '%');
