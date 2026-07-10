@@ -30,7 +30,7 @@ namespace FirearmsDealershipSystem
             string password = txtPassword.Text;
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Please enter an email and password", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Both Email and Password Fields are Required!", "Exclamation", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace FirearmsDealershipSystem
                 return;
             }
 
-            MessageBox.Show("Login successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Login Successful!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Hide();
             FrmMain mainForm = new FrmMain();
             mainForm.ShowDialog();
@@ -57,7 +57,7 @@ namespace FirearmsDealershipSystem
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to leave?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Leave?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 this.Close();
             }
